@@ -1,37 +1,35 @@
-import { string, object } from 'yup';
 import Workout from '../models/Workout';
 
 class WorkoutController {
   async store(req, res) {
-    const schema = object().shape({
-      name: string().required(),
-    });
+    const { name, categories, startDate } = req.body;
 
-    if (!(await schema.isValid(req.body))) {
+    if (!name) {
       return res.status(400).json({ error: 'Field name required' });
     }
 
-    const exists = await Workout.findOne({
-      where: { name: req.body.name },
-      attributes: ['id'],
-    });
-
-    if (exists) {
-      return res.status(400).json({ error: 'Workout already exists.' });
+    if (!categories || !categories.length) {
+      return res.status(400).json({ error: 'Field category required' });
     }
 
-    const result = await Workout.create(req.body);
+    if (!startDate) {
+      return res.status(400).json({ error: 'Fields startDate required' });
+    }
 
-    return res.json({ workout: result?.dataValues });
+    const newWorkout = await Workout.create(req.body);
+
+    await newWorkout.setCategories(req.body.categories);
+
+    return res.json({ workout: newWorkout?.dataValues });
   }
 
   async index(req, res) {
-    const categories = await Workout.findAll({
-      attributes: ['id', 'name', 'description'],
+    const workouts = await Workout.findAll({
+      attributes: ['id', 'name', 'description', 'startDate'],
       order: [['name']],
     });
 
-    return res.json(categories);
+    return res.json(workouts);
   }
 }
 

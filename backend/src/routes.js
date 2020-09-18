@@ -5,6 +5,7 @@ import CategoryController from './app/controllers/CategoryController';
 
 const routes = new Router();
 
+routes.post('/workouts', WorkoutController.store);
 routes.get('/workouts', WorkoutController.index);
 
 routes.post('/categories', CategoryController.store);

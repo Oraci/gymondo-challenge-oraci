@@ -12,8 +12,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "sequelize": "^6.3.5",
-    "sqlite3": "^5.0.0",
-    "yup": "^0.29.3"
+    "sqlite3": "^5.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",

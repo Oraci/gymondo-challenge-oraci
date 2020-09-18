@@ -1,13 +1,10 @@
-import { string, object } from 'yup';
 import Category from '../models/Category';
 
 class CategoryController {
   async store(req, res) {
-    const schema = object().shape({
-      name: string().required(),
-    });
+    const { name } = req.body;
 
-    if (!(await schema.isValid(req.body))) {
+    if (!name) {
       return res.status(400).json({ error: 'Field name required' });
     }
 

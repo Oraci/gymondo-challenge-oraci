@@ -16,8 +16,8 @@ class Workout extends Model {
 
   static associate(models) {
     this.belongsToMany(models.Category, {
-      as: 'workoutCategory',
-      through: 'workout_category',
+      as: 'categories',
+      through: 'workoutCategory',
     });
   }
 }
