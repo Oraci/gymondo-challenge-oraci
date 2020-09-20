@@ -26,7 +26,7 @@ class WorkoutController {
   async index(req, res) {
     const workouts = await Workout.findAll({
       attributes: ['id', 'name', 'description', 'startDate'],
-      order: [['name']],
+      order: [['id']],
     });
 
     return res.json(workouts);
