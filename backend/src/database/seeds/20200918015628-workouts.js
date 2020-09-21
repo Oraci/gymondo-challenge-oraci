@@ -3,14 +3,17 @@ module.exports = {
   up: async (queryInterface) => {
     const workouts = [];
 
-    for (let i = 0; i < 100; i++) {
-      const startDate = new Date();
-      if (i === 20 || i === 40 || i === 80) {
-        startDate.setDate(startDate.getDate() + 2);
-      } else if (i % 5 === 0) {
-        startDate.setDate(startDate.getDate() + 1);
-      } else if (i % 3 === 0) {
-        startDate.setDate(startDate.getDate() + 10);
+    for (let i = 0; i < 120; i++) {
+      const startDate = new Date('2020-09-01');
+
+      if (i === 30) {
+        startDate.setDate(startDate.getMonth() + 1);
+      } else if (i === 60) {
+        startDate.setDate(startDate.getMonth() + 2);
+      } else if (i === 90) {
+        startDate.setDate(startDate.getMonth() + 3);
+      } else {
+        startDate.setDate(startDate.getMonth() + 4);
       }
 
       const workout = {

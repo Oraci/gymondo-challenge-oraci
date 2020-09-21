@@ -1,5 +1,5 @@
 import { Op } from 'sequelize';
-import { lastDayOfMonth, startOfMonth, parse, parseISO } from 'date-fns';
+import { lastDayOfMonth, startOfMonth, parseISO } from 'date-fns';
 import Workout from '../models/Workout';
 
 class WorkoutController {
