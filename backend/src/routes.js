@@ -7,6 +7,7 @@ const routes = new Router();
 
 routes.post('/workouts', WorkoutController.store);
 routes.get('/workouts', WorkoutController.index);
+routes.get('/workouts/pagination/:page', WorkoutController.pagination);
 
 routes.post('/categories', CategoryController.store);
 routes.get('/categories', CategoryController.index);

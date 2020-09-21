@@ -4,9 +4,18 @@ module.exports = {
     const workouts = [];
 
     for (let i = 0; i < 100; i++) {
+      const startDate = new Date();
+      if (i === 20 || i === 40 || i === 80) {
+        startDate.setDate(startDate.getDate() + 2);
+      } else if (i % 5 === 0) {
+        startDate.setDate(startDate.getDate() + 1);
+      } else if (i % 3 === 0) {
+        startDate.setDate(startDate.getDate() + 10);
+      }
+
       const workout = {
         name: `Workout ${i + 1}`,
-        startDate: new Date(),
+        startDate,
       };
 
       workouts.push(workout);
