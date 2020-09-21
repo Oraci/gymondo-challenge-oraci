@@ -8,9 +8,9 @@ export const Container = styled.div`
 
 export const Content = styled.div`
   display: flex;
-  /* border: 5px solid red; */
   justify-content: center;
   align-items: center;
+  flex: 1;
 `;
 
 export const Date = styled.div`

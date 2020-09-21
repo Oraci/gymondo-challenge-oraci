@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Container, Logo, Content } from './styles';
 
-const Header: React.FC = () => {
+function Header(): ReactElement {
   return (
     <Container>
       <Logo to="/" />
       <Content>Header</Content>
     </Container>
   );
-};
+}
 
 export default Header;

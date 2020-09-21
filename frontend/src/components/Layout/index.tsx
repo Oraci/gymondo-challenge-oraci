@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import Footer from '../Footer';
 
 import { Container, Content } from './styles';
 
-const Layout: React.FC = ({ children }) => {
+interface LayoutProps {
+  children: ReactElement;
+}
+
+function Layout(props: LayoutProps): ReactElement {
+  const { children } = props;
+
   return (
     <Container>
       <Content>
@@ -13,6 +19,6 @@ const Layout: React.FC = ({ children }) => {
       </Content>
     </Container>
   );
-};
+}
 
 export default Layout;

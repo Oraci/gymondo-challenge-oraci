@@ -21,7 +21,10 @@ export interface Workout {
  * State type
  */
 export interface WorkoutsState {
-  readonly data: Workout[];
+  readonly rows: Workout[];
+  readonly currentPage: number;
+  readonly totalItems: number;
+  readonly totalPages: number;
   readonly loading: boolean;
   readonly error: boolean;
 }
