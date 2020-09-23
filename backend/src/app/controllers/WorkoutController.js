@@ -1,6 +1,7 @@
-import { Op } from 'sequelize';
+import { Op, literal } from 'sequelize';
 import { lastDayOfMonth, startOfMonth, parseISO } from 'date-fns';
 import Workout from '../models/Workout';
+import Category from '../models/Category';
 
 class WorkoutController {
   async store(req, res) {
@@ -42,7 +43,7 @@ class WorkoutController {
 
   async pagination(req, res) {
     const { page } = req.params;
-    const { startDate } = req.query;
+    const { startDate, categories } = req.query;
 
     const firstDate = startOfMonth(parseISO(startDate));
     const endDate = lastDayOfMonth(parseISO(startDate));
@@ -50,12 +51,37 @@ class WorkoutController {
     const limit = 20;
     const offset = page > 1 ? (page - 1) * limit : 0;
 
+    const include = [];
+    const attributes = ['id', 'name', 'startDate', 'description'];
+
+    attributes.push([
+      literal(
+        `(select GROUP_CONCAT((select b.name from category b where  b.id = a.categoryId), ',
+        ') name from workoutCategory a where a.workoutId = workout.id)`
+      ),
+      'categoriesNames',
+    ]);
+
+    if (categories) {
+      include.push({
+        model: Category,
+        as: 'categories',
+        where: { id: { [Op.in]: categories } },
+        through: {
+          attributes: [],
+        },
+        attributes: [],
+      });
+    }
+
     const workouts = await Workout.findAndCountAll({
       where: {
         startDate: {
           [Op.between]: [firstDate, endDate],
         },
       },
+      include,
+      attributes,
       limit,
       offset,
       order: [['id', 'ASC']],
