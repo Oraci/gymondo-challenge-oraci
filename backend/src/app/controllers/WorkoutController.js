@@ -80,6 +80,7 @@ class WorkoutController {
           [Op.between]: [firstDate, endDate],
         },
       },
+      distinct: true,
       include,
       attributes,
       limit,
