@@ -18,7 +18,7 @@ import TopBar from '../../components/TopBar';
 import Pagination from '../../components/Pagination';
 import CardList from '../../components/CardList';
 
-import { Container, Content, Loading } from './styles';
+import { Container, Content, Loading, NoResults } from './styles';
 import { Workout as WorkoutType } from '../../store/ducks/workouts/types';
 
 function Workout(): ReactElement {
@@ -109,7 +109,11 @@ function Workout(): ReactElement {
         />
         <>
           {!loading ? (
-            <CardList data={workouts} onSelectedCard={onSelectedCard} />
+            workouts.length > 0 ? (
+              <CardList data={workouts} onSelectedCard={onSelectedCard} />
+            ) : (
+              <NoResults>No results</NoResults>
+            )
           ) : (
             <Loading>Loading...</Loading>
           )}

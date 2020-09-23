@@ -20,3 +20,11 @@ export const Loading = styled.div`
   color: white;
   font-size: 24px;
 `;
+
+export const NoResults = styled.div`
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  font-size: 24px;
+`;
