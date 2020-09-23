@@ -68,9 +68,9 @@ function TopBar(props: TopBarProps): ReactElement {
             );
           })}
         </Categories>
-        <Button onClick={onClickHandle} disabled={!filterCategories.length}>
-          Clear categories
-        </Button>
+        {filterCategories.length > 0 && (
+          <Button onClick={onClickHandle}>Clear</Button>
+        )}
       </Content>
     </Container>
   );
