@@ -18,28 +18,36 @@ function Pagination(props: PaginationProps): ReactElement {
   return (
     <Container>
       <Content>
-        <Button
-          type="button"
-          onClick={(): false | void =>
-            hasPreviousPage && onPageChange(currentPage - 1)
-          }
-          disabled={!hasPreviousPage}
-        >
-          prev
-        </Button>
-        {currentPage} of {totalPages}
-        <Button
-          type="button"
-          onClick={(): false | void =>
-            hasNextPage && onPageChange(currentPage + 1)
-          }
-          disabled={!hasNextPage}
-        >
-          next
-        </Button>
-        <div>
-          <strong>{`Total records: ${totalItems}`}</strong>
-        </div>
+        <>
+          {totalItems > 20 && (
+            <>
+              <Button
+                type="button"
+                onClick={(): false | void =>
+                  hasPreviousPage && onPageChange(currentPage - 1)
+                }
+                disabled={!hasPreviousPage}
+              >
+                prev
+              </Button>
+              {currentPage} of {totalPages}
+              <Button
+                type="button"
+                onClick={(): false | void =>
+                  hasNextPage && onPageChange(currentPage + 1)
+                }
+                disabled={!hasNextPage}
+              >
+                next
+              </Button>
+            </>
+          )}
+        </>
+        {totalItems > 0 && (
+          <div>
+            <strong>{`Total records: ${totalItems}`}</strong>
+          </div>
+        )}
       </Content>
     </Container>
   );

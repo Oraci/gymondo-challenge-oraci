@@ -5,15 +5,16 @@ import { HiddenCheckbox, ContainerLabel, ItemCheck, Text } from './styles';
 
 interface CheckboxProps {
   label: string;
+  checked: boolean;
   onChange: (ev: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 function Checkbox(props: CheckboxProps): ReactElement {
-  const { label, onChange } = props;
+  const { label, onChange, checked } = props;
 
   return (
     <ContainerLabel id="container">
-      <HiddenCheckbox type="checkbox" onChange={onChange} />
+      <HiddenCheckbox type="checkbox" onChange={onChange} checked={checked} />
       <ItemCheck id="item">
         <Icon />
       </ItemCheck>

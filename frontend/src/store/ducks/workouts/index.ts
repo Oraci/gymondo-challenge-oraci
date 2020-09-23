@@ -37,10 +37,14 @@ const reducer: Reducer<WorkoutsState> = (state = INITIAL_STATE, action) => {
       return { ...state, selectedWorkout: action.payload.data };
     }
     case WorkoutsTypes.SELECTED_FILTER_DATE: {
-      return { ...state, filterDate: action.payload.date };
+      return { ...state, filterDate: action.payload.date, currentPage: 1 };
     }
     case WorkoutsTypes.SELECTED_FILTER_CATEGORY: {
-      return { ...state, filterCategories: action.payload.categories };
+      return {
+        ...state,
+        filterCategories: action.payload.categories,
+        currentPage: 1,
+      };
     }
     case WorkoutsTypes.LOAD_FAILURE:
       return {

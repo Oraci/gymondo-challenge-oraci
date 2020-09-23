@@ -1,4 +1,4 @@
-import React, { useEffect, useState, ReactElement } from 'react';
+import React, { useEffect, ReactElement } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
@@ -44,7 +44,7 @@ function Workout(): ReactElement {
 
     dispatch(loadCategoriesRequest());
 
-    return function cleanup() {
+    return function cleanup(): void {
       abortController.abort();
     };
   }, [dispatch]);
@@ -60,7 +60,7 @@ function Workout(): ReactElement {
       })
     );
 
-    return function cleanup() {
+    return function cleanup(): void {
       abortController.abort();
     };
   }, [currentPage, dispatch, filterCategories, filterDate]);
@@ -97,6 +97,14 @@ function Workout(): ReactElement {
     history.push(`/workout/detail/${data.id}`);
   };
 
+  const WorkoutsCards = (): ReactElement => {
+    return workouts.length > 0 ? (
+      <CardList data={workouts} onSelectedCard={onSelectedCard} />
+    ) : (
+      <NoResults>No results</NoResults>
+    );
+  };
+
   return (
     <Container>
       <Header />
@@ -105,26 +113,17 @@ function Workout(): ReactElement {
           startDate={filterDate}
           onChageDate={onChageDate}
           categories={categories}
+          filterCategories={filterCategories}
           onChangeCategory={onChangeCategory}
         />
         <>
-          {!loading ? (
-            workouts.length > 0 ? (
-              <CardList data={workouts} onSelectedCard={onSelectedCard} />
-            ) : (
-              <NoResults>No results</NoResults>
-            )
-          ) : (
-            <Loading>Loading...</Loading>
-          )}
-          {totalItems > 20 && (
-            <Pagination
-              totalPages={totalPages}
-              totalItems={totalItems}
-              currentPage={currentPage}
-              onPageChange={(page: number): void => onPageChange(page)}
-            />
-          )}
+          {!loading ? WorkoutsCards() : <Loading>Loading...</Loading>}
+          <Pagination
+            totalPages={totalPages}
+            totalItems={totalItems}
+            currentPage={currentPage}
+            onPageChange={(page: number): void => onPageChange(page)}
+          />
         </>
       </Content>
     </Container>
