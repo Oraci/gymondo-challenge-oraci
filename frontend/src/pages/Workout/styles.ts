@@ -13,3 +13,12 @@ export const Content = styled.div`
   border: 5px solid pink;
   flex: 1;
 `;
+
+export const Loading = styled.div`
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  color: white;
+  font-size: 24px;
+`;

@@ -1,50 +1,101 @@
 import React, { useEffect, useState, ReactElement } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
-import { loadRequest } from '../../store/ducks/workouts/actions';
+import {
+  loadWorkoutsRequest,
+  selectedWorkout,
+} from '../../store/ducks/workouts/actions';
+
+import { loadCategoriesRequest } from '../../store/ducks/categories/actions';
 
 import { ApplicationState } from '../../store';
 
 import Header from '../../components/Header';
 import TopBar from '../../components/TopBar';
 import Pagination from '../../components/Pagination';
+import CardList from '../../components/CardList';
 
-import { Container, Content } from './styles';
+import { Container, Content, Loading } from './styles';
+import { Workout as WorkoutType } from '../../store/ducks/workouts/types';
 
 function Workout(): ReactElement {
   const [startDate, setStartDate] = useState<Date | Date[]>(new Date());
+  const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
 
-  const { rows, totalPages, currentPage, totalItems } = useSelector(
-    (state: ApplicationState) => state.workouts
+  const {
+    workouts,
+    totalPages,
+    currentPage,
+    totalItems,
+    loading,
+  } = useSelector((state: ApplicationState) => state.workouts);
+
+  const { categories } = useSelector(
+    (state: ApplicationState) => state.categories
   );
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
-    dispatch(loadRequest({ page: 1, startDate }));
-  }, [dispatch, startDate]);
+    dispatch(loadCategoriesRequest());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(
+      loadWorkoutsRequest({
+        page: currentPage,
+        startDate,
+        categories: selectedCategories,
+      })
+    );
+  }, [categories, currentPage, dispatch, selectedCategories, startDate]);
 
   const onPageChange = (page: number): void => {
-    dispatch(loadRequest({ page, startDate }));
+    dispatch(
+      loadWorkoutsRequest({ page, startDate, categories: selectedCategories })
+    );
   };
 
   const onChageDate = (date: Date | Date[]): void => {
     setStartDate(date);
+  };
 
-    dispatch(loadRequest({ page: currentPage, startDate: date }));
+  const onChangeCategory = (
+    ev: React.ChangeEvent<HTMLInputElement>,
+    id: number
+  ): void => {
+    if (ev.target.checked) {
+      setSelectedCategories([...selectedCategories, id]);
+    } else {
+      const filter = selectedCategories.filter((a) => a !== id);
+      setSelectedCategories(filter);
+    }
+  };
+
+  const onSelectedCard = (data: WorkoutType): void => {
+    dispatch(selectedWorkout(data));
+
+    history.push(`/workout/detail/${data.id}`);
   };
 
   return (
     <Container>
       <Header />
       <Content>
-        <TopBar startDate={startDate} onChange={onChageDate} />
+        <TopBar
+          startDate={startDate}
+          onChageDate={onChageDate}
+          categories={categories}
+          onChangeCategory={onChangeCategory}
+        />
         <>
-          <div>
-            {rows.map((workout) => {
-              return <div key={workout.id}>{workout.name}</div>;
-            })}
-          </div>
+          {!loading ? (
+            <CardList data={workouts} onSelectedCard={onSelectedCard} />
+          ) : (
+            <Loading>Loading...</Loading>
+          )}
           {totalItems > 20 && (
             <Pagination
               totalPages={totalPages}

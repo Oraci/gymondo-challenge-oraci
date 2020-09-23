@@ -5,6 +5,7 @@ export enum WorkoutsTypes {
   LOAD_REQUEST = '@workouts/LOAD_REQUEST',
   LOAD_SUCCCES = '@workouts/LOAD_SUCCCES',
   LOAD_FAILURE = '@workouts/LOAD_FAILURE',
+  SELECTED_WORKOUT = '@workouts/SELECTED_WORKOUT',
 }
 
 /**
@@ -15,13 +16,15 @@ export interface Workout {
   name: string;
   description: string;
   startDate: Date;
+  categoriesNames: string;
 }
 
 /**
  * State type
  */
 export interface WorkoutsState {
-  readonly rows: Workout[];
+  readonly selectedWorkout: Workout;
+  readonly workouts: Workout[];
   readonly currentPage: number;
   readonly totalItems: number;
   readonly totalPages: number;

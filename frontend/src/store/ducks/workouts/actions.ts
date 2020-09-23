@@ -1,15 +1,20 @@
 import { action } from 'typesafe-actions';
-import { WorkoutsTypes } from './types';
+import { WorkoutsTypes, Workout } from './types';
 
-export const loadRequest = ({
+export const loadWorkoutsRequest = ({
   page,
   startDate,
+  categories,
 }: {
   page: number;
   startDate: Date | Date[];
-}) => action(WorkoutsTypes.LOAD_REQUEST, { page, startDate });
+  categories: number[];
+}) => action(WorkoutsTypes.LOAD_REQUEST, { page, startDate, categories });
 
-export const loadSuccess = (data: {}) =>
+export const loadWorkoutsSuccess = (data: {}) =>
   action(WorkoutsTypes.LOAD_SUCCCES, { data });
 
-export const loadFailure = () => action(WorkoutsTypes.LOAD_FAILURE);
+export const loadWorkoutsFailure = () => action(WorkoutsTypes.LOAD_FAILURE);
+
+export const selectedWorkout = (data: Workout) =>
+  action(WorkoutsTypes.SELECTED_WORKOUT, { data });

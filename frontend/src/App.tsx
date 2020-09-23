@@ -17,12 +17,8 @@ const App: React.FC = () => {
         <GlobalStyle />
         <Layout>
           <Switch>
-            <Route exact path={['/', '/workout']}>
-              <Workout />
-            </Route>
-            <Route exact path="/detail">
-              <Detail />
-            </Route>
+            <Route exact path="/" component={Workout} />
+            <Route exact path="/workout/detail/:id" component={Detail} />
           </Switch>
         </Layout>
       </ThemeProvider>

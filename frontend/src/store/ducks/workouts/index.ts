@@ -2,7 +2,14 @@ import { Reducer } from 'redux';
 import { WorkoutsState, WorkoutsTypes } from './types';
 
 const INITIAL_STATE: WorkoutsState = {
-  rows: [],
+  selectedWorkout: {
+    id: 0,
+    name: '',
+    description: '',
+    startDate: new Date(),
+    categoriesNames: '',
+  },
+  workouts: [],
   currentPage: 1,
   totalItems: 0,
   totalPages: 0,
@@ -19,11 +26,14 @@ const reducer: Reducer<WorkoutsState> = (state = INITIAL_STATE, action) => {
         ...state,
         loading: false,
         error: false,
-        rows: action.payload.data.rows,
+        workouts: action.payload.data.rows,
         currentPage: parseInt(action.payload.data.currentPage, 10),
         totalItems: parseInt(action.payload.data.totalItems, 10),
         totalPages: parseInt(action.payload.data.totalPages, 10),
       };
+    case WorkoutsTypes.SELECTED_WORKOUT: {
+      return { ...state, selectedWorkout: action.payload.data };
+    }
     case WorkoutsTypes.LOAD_FAILURE:
       return {
         ...state,

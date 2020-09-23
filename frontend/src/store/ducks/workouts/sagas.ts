@@ -1,23 +1,30 @@
-import { all, takeLatest, put } from 'redux-saga/effects';
+import { call, all, takeLatest, put } from 'redux-saga/effects';
 import { ActionType } from 'typesafe-actions';
 import api from '../../../services/api';
 
-import { loadRequest, loadSuccess, loadFailure } from './actions';
+import {
+  loadWorkoutsRequest,
+  loadWorkoutsSuccess,
+  loadWorkoutsFailure,
+} from './actions';
 import { WorkoutsTypes } from './types';
 
-export function* load({ payload }: ActionType<typeof loadRequest>) {
+export function* load({ payload }: ActionType<typeof loadWorkoutsRequest>) {
   try {
-    const { page, startDate } = payload;
+    const { page, startDate, categories } = payload;
 
     const params = {
       startDate,
+      categories,
     };
 
-    const response = yield api.get(`workouts/pagination/${page}`, { params });
+    const response = yield call(api.get, `workouts/pagination/${page}`, {
+      params,
+    });
 
-    yield put(loadSuccess(response.data));
+    yield put(loadWorkoutsSuccess(response.data));
   } catch (err) {
-    yield put(loadFailure());
+    yield put(loadWorkoutsFailure());
   }
 }
 
