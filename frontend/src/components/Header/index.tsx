@@ -6,7 +6,7 @@ function Header(): ReactElement {
   return (
     <Container>
       <Logo to="/" />
-      <Content>Header</Content>
+      <Content>Fall into fitness!</Content>
     </Container>
   );
 }

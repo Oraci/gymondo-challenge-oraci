@@ -5,6 +5,8 @@ import { useHistory } from 'react-router-dom';
 import {
   loadWorkoutsRequest,
   selectedWorkout,
+  selectedFilterDate,
+  selectedFilterCategories,
 } from '../../store/ducks/workouts/actions';
 
 import { loadCategoriesRequest } from '../../store/ducks/categories/actions';
@@ -20,15 +22,14 @@ import { Container, Content, Loading } from './styles';
 import { Workout as WorkoutType } from '../../store/ducks/workouts/types';
 
 function Workout(): ReactElement {
-  const [startDate, setStartDate] = useState<Date | Date[]>(new Date());
-  const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
-
   const {
     workouts,
     totalPages,
     currentPage,
     totalItems,
     loading,
+    filterDate,
+    filterCategories,
   } = useSelector((state: ApplicationState) => state.workouts);
 
   const { categories } = useSelector(
@@ -39,27 +40,43 @@ function Workout(): ReactElement {
   const history = useHistory();
 
   useEffect(() => {
+    const abortController = new AbortController();
+
     dispatch(loadCategoriesRequest());
+
+    return function cleanup() {
+      abortController.abort();
+    };
   }, [dispatch]);
 
   useEffect(() => {
+    const abortController = new AbortController();
+
     dispatch(
       loadWorkoutsRequest({
         page: currentPage,
-        startDate,
-        categories: selectedCategories,
+        startDate: filterDate,
+        categories: filterCategories,
       })
     );
-  }, [categories, currentPage, dispatch, selectedCategories, startDate]);
+
+    return function cleanup() {
+      abortController.abort();
+    };
+  }, [currentPage, dispatch, filterCategories, filterDate]);
 
   const onPageChange = (page: number): void => {
     dispatch(
-      loadWorkoutsRequest({ page, startDate, categories: selectedCategories })
+      loadWorkoutsRequest({
+        page,
+        startDate: filterDate,
+        categories: filterCategories,
+      })
     );
   };
 
   const onChageDate = (date: Date | Date[]): void => {
-    setStartDate(date);
+    dispatch(selectedFilterDate(date));
   };
 
   const onChangeCategory = (
@@ -67,10 +84,10 @@ function Workout(): ReactElement {
     id: number
   ): void => {
     if (ev.target.checked) {
-      setSelectedCategories([...selectedCategories, id]);
+      dispatch(selectedFilterCategories([...filterCategories, id]));
     } else {
-      const filter = selectedCategories.filter((a) => a !== id);
-      setSelectedCategories(filter);
+      const filter = filterCategories.filter((a) => a !== id);
+      dispatch(selectedFilterCategories(filter));
     }
   };
 
@@ -85,7 +102,7 @@ function Workout(): ReactElement {
       <Header />
       <Content>
         <TopBar
-          startDate={startDate}
+          startDate={filterDate}
           onChageDate={onChageDate}
           categories={categories}
           onChangeCategory={onChangeCategory}

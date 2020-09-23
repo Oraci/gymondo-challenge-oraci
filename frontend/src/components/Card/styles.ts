@@ -6,10 +6,10 @@ export const Container = styled.div`
   flex-direction: column;
   position: relative;
 
-  margin: 0 10px 20px;
-  width: 130px;
-  height: 80px;
-  border: 1px solid #ff7f66;
+  margin: 0 10px 10px;
+  width: 180px;
+  height: 70px;
+  border: 1px solid #ffb6bd;
   border-radius: 10px;
   padding: 10px;
   transition: all 300ms;
@@ -32,20 +32,19 @@ export const Container = styled.div`
   }
 `;
 
-export const Content = styled.div`
-  flex-direction: column;
-  display: flex;
-  padding: 5px;
-`;
-
 export const Header = styled.div`
   flex: 1;
   display: flex;
   justify-content: space-between;
 `;
 
-export const Footer = styled.div`
-  flex: 1;
+export const Content = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+`;
+
+export const Info = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
 `;

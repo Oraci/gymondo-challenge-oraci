@@ -5,7 +5,7 @@ import { Container, Content } from './styles';
 function Footer(): ReactElement {
   return (
     <Container>
-      <Content>Footer</Content>
+      <Content>Get in shape! 2020</Content>
     </Container>
   );
 }

@@ -1,4 +1,5 @@
 import React, { ReactElement } from 'react';
+import { format } from 'date-fns';
 import {
   MdKeyboardBackspace,
   MdDateRange,
@@ -53,11 +54,13 @@ function Detail(): ReactElement {
         <Information>
           <Info>
             <MdDateRange size={24} style={{ marginRight: 6 }} />
-            <div>{`Start date: ${startDate}`}</div>
+            <div>{`Start date: ${
+              format(new Date(startDate), 'yyyy-MM-dd') || ''
+            }`}</div>
           </Info>
           <Info>
             <MdViewHeadline size={24} style={{ marginRight: 6 }} />
-            <div>{`Categories: ${categoriesNames}`}</div>
+            <div>{`Categories: ${categoriesNames || ''}`}</div>
           </Info>
           <Info>{description}</Info>
         </Information>

@@ -12,8 +12,12 @@ export const Content = styled.div`
   background: #ffffff;
   display: flex;
   flex: 1;
-  justify-content: center;
   align-items: center;
+  justify-content: flex-end;
+  color: #f07580;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 24px;
 `;
 
 export const Logo = styled(Link)`

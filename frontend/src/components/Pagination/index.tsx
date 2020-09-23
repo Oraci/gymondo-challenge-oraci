@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { Container, Content } from './styles';
+import { Container, Content, Button } from './styles';
 
 interface PaginationProps {
   totalPages: number;
@@ -18,28 +18,28 @@ function Pagination(props: PaginationProps): ReactElement {
   return (
     <Container>
       <Content>
+        <Button
+          type="button"
+          onClick={(): false | void =>
+            hasPreviousPage && onPageChange(currentPage - 1)
+          }
+          disabled={!hasPreviousPage}
+        >
+          prev
+        </Button>
+        {currentPage} of {totalPages}
+        <Button
+          type="button"
+          onClick={(): false | void =>
+            hasNextPage && onPageChange(currentPage + 1)
+          }
+          disabled={!hasNextPage}
+        >
+          next
+        </Button>
         <div>
-          <button
-            type="button"
-            onClick={(): false | void =>
-              hasPreviousPage && onPageChange(currentPage - 1)
-            }
-            disabled={!hasPreviousPage}
-          >
-            prev
-          </button>
-          {currentPage} of {totalPages}
-          <button
-            type="button"
-            onClick={(): false | void =>
-              hasNextPage && onPageChange(currentPage + 1)
-            }
-            disabled={!hasNextPage}
-          >
-            next
-          </button>
+          <strong>{`Total records: ${totalItems}`}</strong>
         </div>
-        <div>{`Records ${totalItems}`}</div>
       </Content>
     </Container>
   );

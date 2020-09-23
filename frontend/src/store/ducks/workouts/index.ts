@@ -9,6 +9,8 @@ const INITIAL_STATE: WorkoutsState = {
     startDate: new Date(),
     categoriesNames: '',
   },
+  filterDate: new Date(),
+  filterCategories: [],
   workouts: [],
   currentPage: 1,
   totalItems: 0,
@@ -33,6 +35,12 @@ const reducer: Reducer<WorkoutsState> = (state = INITIAL_STATE, action) => {
       };
     case WorkoutsTypes.SELECTED_WORKOUT: {
       return { ...state, selectedWorkout: action.payload.data };
+    }
+    case WorkoutsTypes.SELECTED_FILTER_DATE: {
+      return { ...state, filterDate: action.payload.date };
+    }
+    case WorkoutsTypes.SELECTED_FILTER_CATEGORY: {
+      return { ...state, filterCategories: action.payload.categories };
     }
     case WorkoutsTypes.LOAD_FAILURE:
       return {

@@ -2,8 +2,10 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
-  height: 70px;
-  /* background: #ff7f66; */
+  height: 50px;
+  background: #ffb6bd;
+  margin-bottom: 10px;
+  border-radius: 10px;
 `;
 
 export const Content = styled.div`
