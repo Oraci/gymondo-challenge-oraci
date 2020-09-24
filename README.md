@@ -6,7 +6,7 @@ I created 2 separate projects in the following folders:
 
 The link to clone the repository is: 
 
-- git@github.com:Oraci/gymondo-challenge-oraci.git
+- git clone git@github.com:Oraci/gymondo-challenge-oraci.git
 
 ## `Frontend`
 
@@ -18,7 +18,7 @@ The frontend was created using react and typescript.
 
 ### `To run the frontend project`
 
-In the project directory, you should run:
+In the project frontend directory, you should run:
 
  - yarn install
  - yarn start
@@ -37,7 +37,7 @@ In the project directory, you should run:
 
  ### `To run the backend project`
 
-In the project directory, you should run:
+In the project backend directory, you should run:
 
  - yarn install
  - yarn dev
