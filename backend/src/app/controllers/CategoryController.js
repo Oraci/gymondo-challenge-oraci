@@ -5,7 +5,7 @@ class CategoryController {
     const { name } = req.body;
 
     if (!name) {
-      return res.status(400).json({ error: 'Field name required' });
+      res.status(400).send({ error: 'Field name required' });
     }
 
     const exists = await Category.findOne({
@@ -14,21 +14,31 @@ class CategoryController {
     });
 
     if (exists) {
-      return res.status(400).json({ error: 'Category already exists.' });
+      res.status(400).send({ error: 'Category already exists.' });
     }
 
-    const result = await Category.create(req.body);
-
-    return res.json({ category: result?.dataValues });
+    Category.create(req.body)
+      .then((result) => {
+        res.send({ category: result?.dataValues });
+      })
+      .catch(() => {
+        res
+          .status(400)
+          .send({ message: 'It was not possible to create the category.' });
+      });
   }
 
   async index(req, res) {
-    const categories = await Category.findAll({
+    Category.findAll({
       attributes: ['id', 'name'],
       order: [['id', 'ASC']],
-    });
-
-    return res.json(categories);
+    })
+      .then((categories) => {
+        res.send(categories);
+      })
+      .catch(() => {
+        res.status(400).send({ message: 'Categories not found.' });
+      });
   }
 }
 

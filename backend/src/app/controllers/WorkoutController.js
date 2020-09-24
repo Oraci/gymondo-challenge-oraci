@@ -8,15 +8,15 @@ class WorkoutController {
     const { name, categories, startDate, description } = req.body;
 
     if (!name) {
-      return res.status(400).json({ error: 'Field name required' });
+      res.status(400).send({ error: 'Field name required' });
     }
 
     if (!categories || !categories.length) {
-      return res.status(400).json({ error: 'Field category required' });
+      res.status(400).send({ error: 'Field category required' });
     }
 
     if (!startDate) {
-      return res.status(400).json({ error: 'Fields startDate required' });
+      res.status(400).send({ error: 'Fields startDate required' });
     }
 
     const values = {
@@ -25,20 +25,38 @@ class WorkoutController {
       description,
     };
 
-    const newWorkout = await Workout.create(values);
-
-    await newWorkout.setCategories(categories);
-
-    return res.json({ workout: newWorkout?.dataValues });
+    Workout.create(values)
+      .then((newWorkout) => {
+        newWorkout
+          .setCategories(categories)
+          .then(() => {
+            res.send({ workout: newWorkout?.dataValues });
+          })
+          .catch(() => {
+            res.status(400).send({
+              message:
+                'It was not possible to insert the categories into workout.',
+            });
+          });
+      })
+      .catch(() => {
+        res
+          .status(400)
+          .send({ message: 'It was not possible to create the workout.' });
+      });
   }
 
   async index(req, res) {
-    const workouts = await Workout.findAndCountAll({
+    Workout.findAndCountAll({
       attributes: ['id', 'name', 'description', 'startDate'],
       order: [['id']],
-    });
-
-    return res.json(workouts);
+    })
+      .then((workouts) => {
+        res.send(workouts);
+      })
+      .catch(() => {
+        res.status(400).send({ message: 'Workouts not found.' });
+      });
   }
 
   async pagination(req, res) {
@@ -74,7 +92,7 @@ class WorkoutController {
       });
     }
 
-    const workouts = await Workout.findAndCountAll({
+    Workout.findAndCountAll({
       where: {
         startDate: {
           [Op.between]: [firstDate, endDate],
@@ -86,18 +104,22 @@ class WorkoutController {
       limit,
       offset,
       order: [['id', 'ASC']],
-    });
+    })
+      .then((workouts) => {
+        const totalPages = Math.ceil(workouts.count / limit);
 
-    const totalPages = Math.ceil(workouts.count / limit);
+        const response = {
+          currentPage: page,
+          totalItems: workouts.count,
+          totalPages,
+          rows: workouts.rows,
+        };
 
-    const response = {
-      currentPage: page,
-      totalItems: workouts.count,
-      totalPages,
-      rows: workouts.rows,
-    };
-
-    res.send(response);
+        res.send(response);
+      })
+      .catch(() => {
+        res.status(400).send({ message: 'Workouts not found.' });
+      });
   }
 }
 
