@@ -23,13 +23,10 @@ In the project frontend directory, you should run:
  - yarn install
  - yarn start
 
-
-### `Screenshots`
-
-## `List screen`
+### `List screen`
 ![List](https://github.com/Oraci/gymondo-challenge-oraci/blob/master/frontend/src/assets/screenshots/home.png?raw=true)
 
-## `Detail screen`
+### `Detail screen`
 ![Detail](https://github.com/Oraci/gymondo-challenge-oraci/blob/master/frontend/src/assets/screenshots/detail.png?raw=true)
 
 
